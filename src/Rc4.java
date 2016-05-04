@@ -12,12 +12,12 @@ public class Rc4 {
 	private static int[] key = new int[] { 1, 2, 3, 4, 5 };
 
 	// Comment in to encrypt
-	// private static String inputPath = ".\\src\\Hello World.txt";
-	// private static String outputPath = ".\\src\\encrypted.txt";
+	private static String inputPath = ".\\src\\Hello World.txt";
+	private static String outputPath = ".\\src\\encrypted.txt";
 
 	// Comment in to decrypt
-	private static String inputPath = ".\\src\\encrypted.txt";
-	private static String outputPath = ".\\src\\decrypted.txt";
+	// private static String inputPath = ".\\src\\encrypted.txt";
+	// private static String outputPath = ".\\src\\decrypted.txt";
 
 	public static void main(String[] args) {
 		long start = System.currentTimeMillis();
@@ -62,9 +62,10 @@ public class Rc4 {
 
 	private static String encrypt(final String plaintext) {
 		StringBuffer out = new StringBuffer();
-		char[] chars = plaintext.toCharArray();
 
+		char[] chars = plaintext.toCharArray();
 		int i = 0, j = 0, k;
+		// short temp;
 		int length = plaintext.length();
 		for (int counter = 0; counter < length; counter++) {
 			i = ((i + 1) % S.length);
