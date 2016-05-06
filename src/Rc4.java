@@ -12,12 +12,8 @@ public class Rc4 {
 	private static int[] key = new int[] { 1, 2, 3, 4, 5 };
 
 	// Comment in to encrypt
-	// private static String inputPath = ".\\src\\King James Bible.txt";
-	// private static String outputPath = ".\\src\\encrypted.txt";
-
-	// Comment in to decrypt
-	private static String inputPath = ".\\src\\encrypted.txt";
-	private static String outputPath = ".\\src\\decrypted.txt";
+	private static String inputPath = ".\\src\\King James Bible.txt";
+	private static String outputPath = ".\\src\\encrypted.txt";
 
 	public static void main(String[] args) {
 		long start = System.nanoTime();
@@ -39,7 +35,6 @@ public class Rc4 {
 				plaintext.append((char) temp);
 			}
 			System.out.println("File read.");
-			// System.out.println(plaintext.toString());
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -49,12 +44,11 @@ public class Rc4 {
 		try {
 			BufferedWriter outWriter = new BufferedWriter(new FileWriter(
 					ciphertext));
-
 			System.out.println("Encrypting...");
 			outWriter.write(encrypt(plaintext.toString()));
 			outWriter.close();
 			long end = System.nanoTime();
-			long runtimeMS = (end - start) / 1000000;
+			long runtimeMS = (end - start) / 1000000; // convert to ms
 			System.out.println("Encryption complete in " + (end - start)
 					+ "ns (" + runtimeMS + "ms)");
 
@@ -64,8 +58,7 @@ public class Rc4 {
 	}
 
 	private static String encrypt(final String plaintext) {
-		StringBuffer out = new StringBuffer();
-
+		StringBuffer ciphertext = new StringBuffer();
 		char[] chars = plaintext.toCharArray();
 		int i = 0, j = 0, k;
 		// short temp;
@@ -77,16 +70,9 @@ public class Rc4 {
 			S[j] ^= S[i];
 			S[i] ^= S[j];
 			k = S[(S[i] + S[j]) % S.length];
-			out.append((char) (chars[counter] ^ k));
-			// debug printlns
-			// System.out.print("" + Integer.toHexString(counter).toUpperCase()
-			// + " " + chars[counter] + " = "
-			// + Integer.toBinaryString(chars[counter]));
-			// System.out.print("\tk = " + Integer.toBinaryString(k));
-			// System.out.println("\t char^k = "
-			// + Integer.toBinaryString((chars[counter] ^ k)));
+			ciphertext.append((char) (chars[counter] ^ k));
 		}
-		return out.toString();
+		return ciphertext.toString();
 	}
 
 	/**
