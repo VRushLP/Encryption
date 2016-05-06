@@ -12,15 +12,16 @@ public class Rc4 {
 	private static int[] key = new int[] { 1, 2, 3, 4, 5 };
 
 	// Comment in to encrypt
-	private static String inputPath = ".\\src\\Hello World.txt";
-	private static String outputPath = ".\\src\\encrypted.txt";
+	// private static String inputPath = ".\\src\\King James Bible.txt";
+	// private static String outputPath = ".\\src\\encrypted.txt";
 
 	// Comment in to decrypt
-	// private static String inputPath = ".\\src\\encrypted.txt";
-	// private static String outputPath = ".\\src\\decrypted.txt";
+	private static String inputPath = ".\\src\\encrypted.txt";
+	private static String outputPath = ".\\src\\decrypted.txt";
 
 	public static void main(String[] args) {
-		long start = System.currentTimeMillis();
+		long start = System.nanoTime();
+
 		System.out.println("Starting key scheduling algorithm.");
 		keyScheduling();
 		System.out.println("Key scheduling finished.");
@@ -33,12 +34,12 @@ public class Rc4 {
 			reader = new BufferedReader(new FileReader(toEncrypt));
 			// Iterate over file and add to plaintext buffer
 			System.out.println("Reading in file.");
-			int temp;
-			while ((temp = reader.read()) != -1) {
+			short temp;
+			while ((temp = (short) reader.read()) != -1) {
 				plaintext.append((char) temp);
 			}
 			System.out.println("File read.");
-			System.out.println(plaintext.toString());
+			// System.out.println(plaintext.toString());
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -52,8 +53,10 @@ public class Rc4 {
 			System.out.println("Encrypting...");
 			outWriter.write(encrypt(plaintext.toString()));
 			outWriter.close();
-			System.out.println("Encryption complete in "
-					+ (System.currentTimeMillis() - start) + "ms");
+			long end = System.nanoTime();
+			long runtimeMS = (end - start) / 1000000;
+			System.out.println("Encryption complete in " + (end - start)
+					+ "ns (" + runtimeMS + "ms)");
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -75,6 +78,13 @@ public class Rc4 {
 			S[i] ^= S[j];
 			k = S[(S[i] + S[j]) % S.length];
 			out.append((char) (chars[counter] ^ k));
+			// debug printlns
+			// System.out.print("" + Integer.toHexString(counter).toUpperCase()
+			// + " " + chars[counter] + " = "
+			// + Integer.toBinaryString(chars[counter]));
+			// System.out.print("\tk = " + Integer.toBinaryString(k));
+			// System.out.println("\t char^k = "
+			// + Integer.toBinaryString((chars[counter] ^ k)));
 		}
 		return out.toString();
 	}
